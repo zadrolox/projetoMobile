@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "966511031375",
+    "project_id": "projetoaulamobile-d49ae",
+    "storage_bucket": "projetoaulamobile-d49ae.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:966511031375:android:0b6e98cbcbae63e3a9a63a",
+        "android_client_info": {
+          "package_name": "com.projetomobile"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAh5l90kCnEnxuXlaAiBqKmqgoOLEmnisc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
