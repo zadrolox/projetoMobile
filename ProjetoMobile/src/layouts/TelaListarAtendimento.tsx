@@ -15,22 +15,23 @@ import {
     Alert,
     FlatList,
 } from 'react-native';
-import { CadastroClienteProps, CadastroUsuarioProps, HomeProps, ListarClientesProps, LoginProps } from '../types';
+import { CadastroClienteProps, CadastroUsuarioProps, HomeProps, ListarAtendimentoProps, ListarClientesProps, LoginProps } from '../types';
 import auth from '@react-native-firebase/auth';
 import { NavigationContainer, PartialRoute } from '@react-navigation/native';
 import firestore from "@react-native-firebase/firestore"
 import { IClientes } from '../models/lClientes';
+import { IAtendimentos } from '../models/lAtendimentos';
 
-export default ({ navigation, route }: ListarClientesProps) => {
+export default ({ navigation, route }: ListarAtendimentoProps) => {
     const [isLoading, setIsLoading] = useState(false)
 
-    const [cliente, setCliente] = useState([] as IClientes[])
+    const [atendimento, setAtendimento] = useState([] as IAtendimentos[])
 
     useEffect(() => {
         setIsLoading(true)
 
         const subscribe = firestore()
-            .collection('clientes')
+            .collection('atendimentos')
             .onSnapshot(querySnapshot => {
                 const data = querySnapshot.docs.map(doc => {
 
@@ -38,9 +39,9 @@ export default ({ navigation, route }: ListarClientesProps) => {
                         id: doc.id,
                         ...doc.data()
                     }
-                }) as IClientes[]
+                }) as IAtendimentos[]
 
-                setCliente(data)
+                setAtendimento(data)
                 setIsLoading(false)
             })
 
@@ -60,28 +61,16 @@ export default ({ navigation, route }: ListarClientesProps) => {
                 <Text style={{ fontSize: 30 }}>Listagem de Clientes</Text>
 
                 <FlatList
-                    data={cliente}
+                    data={atendimento}
                     renderItem={(info) => {
                         return (
                             <View style={styles.card}>
                                 <Text>{info.index}</Text>
                                 <Text>{info.item.nome}</Text>
                                 <Text>{info.item.cpf}</Text>
-                                <Text>{info.item.rua}</Text>
-                                <Text>{info.item.numero}</Text>
-                                <Text>{info.item.bairro}</Text>
-                                <Text>{info.item.complemento}</Text>
-                                <Text>{info.item.cidade}</Text>
-                                <Text>{info.item.estado}</Text>
-                                <Text>{info.item.dataNasc}</Text>
-
-                                <Pressable
-                                    onPress={() => navigation.navigate('AlterarCliente', { id: info.item.id })}>
-                                    <Text style={{ height: 20, backgroundColor: 'red' }}>Alterar Cliente</Text></Pressable>
-
-                                <Pressable
-                                    onPress={() => { route.params?.Selecionar(info.item.id, info.item.nome, info.item.cpf); navigation.goBack() }}>
-                                    <Text style={{ height: 50, backgroundColor: 'red' }}>Selecionar Cliente</Text></Pressable>
+                                <Text>{info.item.data}</Text>
+                                <Text>{info.item.hora}</Text>
+                                <Text>{info.item.descricao}</Text>
                             </View>
                         );
                     }}>

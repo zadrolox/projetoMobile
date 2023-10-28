@@ -1,12 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useId, useState } from 'react';
 import type { PropsWithChildren } from 'react';
 import {
-    SafeAreaView,
     ScrollView,
-    StatusBar,
     StyleSheet,
     Text,
-    useColorScheme,
     View,
     TextInput,
     Image,
@@ -22,15 +19,12 @@ import firestore from "@react-native-firebase/firestore"
 import { IClientes } from '../models/lClientes';
 
 export default ({ navigation, route }: CadastroAtendimentoProps) => {
+    const [id, setId] = useState('')
     const [nome, setNome] = useState('')
     const [cpf, setCpf] = useState('')
-    const [rua, setRua] = useState('')
-    const [numero, setNumero] = useState('')
-    const [bairro, setBairro] = useState('')
-    const [complemento, setComplemento] = useState('')
-    const [cidade, setCidade] = useState('')
-    const [estado, setEstado] = useState('')
-    const [dataNasc, setDataNasc] = useState('')
+    const [data, setData] = useState('')
+    const [hora, setHora] = useState('')
+    const [descricao, setDescricao] = useState('')
     const [isLoading, setIsLoading] = useState(false)
 
     const [cliente, setCliente] = useState([] as IClientes[])
@@ -56,65 +50,100 @@ export default ({ navigation, route }: CadastroAtendimentoProps) => {
         return () => subscribe()
     }, [])
 
+    const regex = /^\d{11}$/;
+    const regel = /\S/
+    const regexData = /^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/\d{4}$/;
+
+    function validar(): boolean {
+        if (!regex.test(cpf)) {
+            return false
+        }
+        if (!regel.test(nome)) { return false }
+        if (!regel.test(cpf)) { return false }
+        if (!regel.test(data)) { return false }
+        if (!regel.test(hora)) { return false }
+        if (!regel.test(descricao)) { return false }
+
+
+        return true;
+    }
+
     function cadastrar() {
+        if (!validar()) {
+            return;
+        }
+        
         setIsLoading(true)
 
         firestore()
-            .collection('clientes')
+            .collection('atendimentos')
             .add({
+                id,
                 nome,
                 cpf,
-                rua,
-                numero,
-                bairro,
-                complemento,
-                cidade,
-                estado,
-                dataNasc,
+                data,
+                hora,
+                descricao,
                 created_at: firestore.FieldValue.serverTimestamp()
             })
             .then(() => {
-                Alert.alert("Cliente", "Cadastrado com sucesso")
+                Alert.alert("Atendimento", "Atendimento com sucesso")
                 navigation.navigate('Home')
             })
             .catch((error) => console.log(error))
             .finally(() => setIsLoading(false))
+
+
+    }
+
+    function fazblabla(id: string, nome: string, cpf: string) {
+        setId(id)
+        setNome(nome)
+        setCpf(cpf)
     }
 
     return (
         <>
-            <View style={styles.container}>
+            {/* <View style={styles.container}>
                 <Image style={styles.logo} source={{
                     uri: 'https://www.petz.com.br/blog/wp-content/uploads/2021/05/raca-de-gato-peludo.jpg',
                 }} />
+            </View > */}
+
+
+
+            <View style={styles.container}>
+                <Text>Cliente</Text>
+
+                <Text style={styles.texto1}>ID: {id} </Text>
+                <Text style={styles.texto1}>Nome: {nome} </Text>
+                <Text style={styles.texto1}>Cpf: {cpf} </Text>
+
+                <Pressable style={styles.botao} onPress={() => navigation.navigate("ListarCliente", { Selecionar: fazblabla })} disabled={isLoading}>
+                    <Text style={{ fontSize: 50 }}>Procurar Cliente</Text>
+                </Pressable>
+
             </View >
 
-            <ScrollView style={styles.container}>
-                <Text style={styles.texto1}>Nome</Text>
-                <TextInput style={styles.caixa} onChangeText={(text) => { setNome(text) }} />
-                <Text style={styles.texto1}>Cpf</Text>
-                <TextInput style={styles.caixa} onChangeText={(text) => { setCpf(text) }} />
-                <Text style={styles.texto1}>Rua</Text>
-                <TextInput style={styles.caixa} onChangeText={(text) => { setRua(text) }} />
-                <Text style={styles.texto1}>Numero</Text>
-                <TextInput style={styles.caixa} onChangeText={(text) => { setNumero(text) }} />
-                <Text style={styles.texto1}>Bairro</Text>
-                <TextInput style={styles.caixa} onChangeText={(text) => { setBairro(text) }} />
-                <Text style={styles.texto1}>Complemento</Text>
-                <TextInput style={styles.caixa} onChangeText={(text) => { setComplemento(text) }} />
-                <Text style={styles.texto1}>Cidade</Text>
-                <TextInput style={styles.caixa} onChangeText={(text) => { setCidade(text) }} />
-                <Text style={styles.texto1}>Estado</Text>
-                <TextInput style={styles.caixa} onChangeText={(text) => { setEstado(text) }} />
-                <Text style={styles.texto1}>Data de Nascimento</Text>
-                <TextInput style={styles.caixa} onChangeText={(text) => { setDataNasc(text) }} />
+            <View style={styles.container}>
+                <Text style={styles.texto1}>Data</Text>
+                <TextInput style={styles.caixa} onChangeText={(text) => { setData(text) }} />
 
+                <Text style={styles.texto1}>Hora</Text>
+                <TextInput style={styles.caixa} onChangeText={(text) => { setHora(text) }} />
+
+                <Text style={styles.texto1}>Descricao</Text>
+                <TextInput
+                    multiline
+                    numberOfLines={4}
+                    maxLength={100}
+                    style={styles.caixa_texto}
+                    onChangeText={(text) => { setDescricao(text) }} />
 
                 <Pressable style={styles.botao} onPress={() => cadastrar()} disabled={isLoading}>
                     <Text style={{ fontSize: 50 }}>Cadastrar</Text>
                 </Pressable>
-
-            </ScrollView >
+            </View>
 
 
         </>
@@ -150,8 +179,16 @@ const styles = StyleSheet.create({
     },
     caixa: {
         backgroundColor: 'grey',
+        color: 'white',
         borderWidth: 2,
         borderColor: 'black'
+    },
+    caixa_texto: {
+        width: '70%',
+        color: 'black',
+        borderWidth: 1,
+        borderRadius: 4,
+        margin: 3
     },
     botao: {
         backgroundColor: 'green'

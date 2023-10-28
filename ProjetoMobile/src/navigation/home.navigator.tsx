@@ -15,6 +15,7 @@ import CadastroClienteScreen from '../screens/CadastroClienteScreen';
 import ListarClienteScreen from '../screens/ListaClienteScreen';
 import AlterarClienteScreen from '../screens/AlterarClienteScreen';
 import CadastroAtendimentoScreen from '../screens/CadastroAtendimentoScreen';
+import ListarAtendimentoScreen from '../screens/ListarAtendimentoScreen';
 
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -33,6 +34,7 @@ const HomeNavigator = () => {
       <Stack.Screen name="ListarCliente" component={ListarClienteScreen} />
       <Stack.Screen name="AlterarCliente" component={AlterarClienteScreen} />
       <Stack.Screen name="CadastroAtendimento" component={CadastroAtendimentoScreen} />
+      <Stack.Screen name="ListarAtendimento" component={ListarAtendimentoScreen} />
     </Stack.Navigator>
   )
 }

@@ -97,6 +97,7 @@ const styles = StyleSheet.create({
     },
     caixa: {
         backgroundColor: 'grey',
+        color: 'white',
         borderWidth: 2,
         borderColor: 'black'
     },

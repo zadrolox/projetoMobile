@@ -56,7 +56,33 @@ export default ({ navigation, route }: CadastroClienteProps) => {
         return () => subscribe()
     }, [])
 
+    const regex = /^\d{11}$/;
+    const regel = /\S/
+    const regexData = /^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/\d{4}$/;
+
+    function validar(): boolean {
+        if (!regex.test(cpf)) {
+            return false
+        }
+        if (!regel.test(nome)) { return false }
+        if (!regel.test(rua)) { return false }
+        if (!regel.test(numero)) { return false }
+        if (!regel.test(bairro)) { return false }
+        if (!regel.test(complemento)) { return false }
+        if (!regel.test(cidade)) { return false }
+        if (!regel.test(estado)) { return false }
+        if (!regexData.test(dataNasc)) { return false }
+
+
+        return true;
+    }
+
     function cadastrar() {
+        if (!validar()) {
+            return;
+        }
+
+
         setIsLoading(true)
 
         firestore()
@@ -81,6 +107,8 @@ export default ({ navigation, route }: CadastroClienteProps) => {
             .finally(() => setIsLoading(false))
     }
 
+
+
     return (
         <>
             <View style={styles.container}>
@@ -92,8 +120,12 @@ export default ({ navigation, route }: CadastroClienteProps) => {
             <ScrollView style={styles.container}>
                 <Text style={styles.texto1}>Nome</Text>
                 <TextInput style={styles.caixa} onChangeText={(text) => { setNome(text) }} />
+
+
                 <Text style={styles.texto1}>Cpf</Text>
                 <TextInput style={styles.caixa} onChangeText={(text) => { setCpf(text) }} />
+
+
                 <Text style={styles.texto1}>Rua</Text>
                 <TextInput style={styles.caixa} onChangeText={(text) => { setRua(text) }} />
                 <Text style={styles.texto1}>Numero</Text>
@@ -150,6 +182,7 @@ const styles = StyleSheet.create({
     },
     caixa: {
         backgroundColor: 'grey',
+        color: 'white',
         borderWidth: 2,
         borderColor: 'black'
     },

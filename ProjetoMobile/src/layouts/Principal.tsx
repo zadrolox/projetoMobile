@@ -143,11 +143,19 @@ const Principal = ({ navigation, route }: HomeProps) => {
       </Pressable> */}
 
       <Pressable style={styles.botao} onPress={() => { navigation.navigate('CadastroCliente') }} >
-        <Text style={{ fontSize: 50 }}>CadastrarCliente</Text>
+        <Text style={{ fontSize: 50 }}>Cadastrar Cliente</Text>
       </Pressable>
 
       <Pressable style={styles.botao} onPress={() => { navigation.navigate('ListarCliente') }} >
         <Text style={{ fontSize: 50 }}>Listar Clientes</Text>
+      </Pressable>
+
+      <Pressable style={styles.botao} onPress={() => { navigation.navigate('CadastroAtendimento') }} >
+        <Text style={{ fontSize: 50 }}>Cadastrar Atendimento</Text>
+      </Pressable>
+
+      <Pressable style={styles.botao} onPress={() => { navigation.navigate('ListarAtendimento') }} >
+        <Text style={{ fontSize: 50 }}>Listar Atendimento</Text>
       </Pressable>
     </View>
   )

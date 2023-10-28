@@ -5,51 +5,58 @@ import { Text, View, } from 'react-native';
 import Principal from './layouts/Principal';
 
 type RootStackParamList = {
-    Home: undefined;
-    Detalhes: undefined;
-    Login: undefined;
-    CadastroUsuario: undefined
-    CadastroUsuarioNota: undefined
-    ListarNotas: undefined
-    TelaLogin: undefined
-    CadastroCliente: undefined
-    ListarCliente: undefined
-    AlterarCliente: {id: string}
-    CadastroAtendimento: undefined
-  };
+  Home: undefined;
+  Detalhes: undefined;
+  Login: undefined;
+  CadastroUsuario: undefined
+  CadastroUsuarioNota: undefined
+  ListarNotas: undefined
+  TelaLogin: undefined
+  CadastroCliente: undefined
+  ListarCliente: {Selecionar: (id: string,
+    nome: string,
+    cpf: string,) => void} | undefined 
+  AlterarCliente: { id: string }
+  CadastroAtendimento: undefined
+  ListarAtendimento: undefined
   
-  type HomeProps = NativeStackScreenProps<RootStackParamList, 'Home'>
-  
-  type HomeScreenNavigationProp = HomeProps['navigation']
-  
-  type HomeScreenRouteProp = HomeProps['route']
+};
 
-  //login
-  type LoginProps = NativeStackScreenProps<RootStackParamList, 'Login'>
+type HomeProps = NativeStackScreenProps<RootStackParamList, 'Home'>
 
-  //Cadastro
-  type CadastroUsuarioProps = NativeStackScreenProps<RootStackParamList, 'CadastroUsuario'>
+type HomeScreenNavigationProp = HomeProps['navigation']
 
-  //CadastroNota
-  type CadastroUsuarioNotaProps = NativeStackScreenProps<RootStackParamList, 'CadastroUsuarioNota'>
+type HomeScreenRouteProp = HomeProps['route']
 
-  //ListarNotas
-  type ListarNotasProps = NativeStackScreenProps<RootStackParamList, "ListarNotas">
+//login
+type LoginProps = NativeStackScreenProps<RootStackParamList, 'Login'>
 
-  //TelaLoginTrabalho
-  type TelaLoginProps = NativeStackScreenProps<RootStackParamList, 'TelaLogin'>
+//Cadastro
+type CadastroUsuarioProps = NativeStackScreenProps<RootStackParamList, 'CadastroUsuario'>
 
-  //CadastroCliente
-  type CadastroClienteProps = NativeStackScreenProps<RootStackParamList, 'CadastroCliente'>
+//CadastroNota
+type CadastroUsuarioNotaProps = NativeStackScreenProps<RootStackParamList, 'CadastroUsuarioNota'>
 
-  //ListarClientes
-  type ListarClientesProps = NativeStackScreenProps<RootStackParamList, 'ListarCliente'>
+//ListarNotas
+type ListarNotasProps = NativeStackScreenProps<RootStackParamList, "ListarNotas">
 
-  //AlterarClientes
-  type AlterarClienteProps = NativeStackScreenProps<RootStackParamList, 'AlterarCliente'>
+//TelaLoginTrabalho
+type TelaLoginProps = NativeStackScreenProps<RootStackParamList, 'TelaLogin'>
 
-  //CadastroAtendimento
-  type CadastroAtendimentoProps = NativeStackScreenProps<RootStackParamList, 'CadastroAtendimento'>
-  
-  
-  export type {HomeScreenNavigationProp, HomeScreenRouteProp, CadastroAtendimentoProps, AlterarClienteProps, ListarClientesProps, CadastroClienteProps,TelaLoginProps, HomeProps, RootStackParamList, ListarNotasProps, LoginProps, CadastroUsuarioProps, CadastroUsuarioNotaProps}
+//CadastroCliente
+type CadastroClienteProps = NativeStackScreenProps<RootStackParamList, 'CadastroCliente'>
+
+//ListarClientes
+type ListarClientesProps = NativeStackScreenProps<RootStackParamList, 'ListarCliente'>
+
+//AlterarClientes
+type AlterarClienteProps = NativeStackScreenProps<RootStackParamList, 'AlterarCliente'>
+
+//CadastroAtendimento
+type CadastroAtendimentoProps = NativeStackScreenProps<RootStackParamList, 'CadastroAtendimento'>
+
+//ListarAtendimento
+type ListarAtendimentoProps = NativeStackScreenProps<RootStackParamList, 'ListarAtendimento'>
+
+
+export type { HomeScreenNavigationProp, HomeScreenRouteProp, ListarAtendimentoProps, CadastroAtendimentoProps, AlterarClienteProps, ListarClientesProps, CadastroClienteProps, TelaLoginProps, HomeProps, RootStackParamList, ListarNotasProps, LoginProps, CadastroUsuarioProps, CadastroUsuarioNotaProps }
